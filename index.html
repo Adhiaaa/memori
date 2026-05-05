@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Memories 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#cfe8ff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:'Poppins', sans-serif;
+}
+
+.phone{
+  width:300px;
+  height:493px;
+  background:#eaf4ff;
+  border-radius:30px;
+  padding:10px;
+  box-shadow:0 0 25px rgba(0,0,0,0.15);
+}
+
+.screen{
+  width:100%;
+  height:100%;
+  border-radius:25px;
+  border:4px solid #a8d0ff;
+  padding:15px;
+  box-sizing:border-box;
+  position:relative;
+  overflow:hidden;
+}
+
+.notif{
+  position:absolute;
+  top:-60px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#333;
+  color:white;
+  padding:10px 20px;
+  border-radius:20px;
+  font-size:13px;
+  opacity:0;
+  transition:0.4s;
+}
+
+.notif.show{
+  top:20px;
+  opacity:1;
+}
+
+/* ANIMATION */
+.fade{
+  animation:fade 0.4s ease;
+}
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1;}
+}
+
+/* LOCK */
+.title{
+  text-align:center;
+  font-weight:700;
+  font-size:25px;
+}
+.hint{
+  text-align:center;
+  font-size:12px;
+  margin-bottom:10px;
+}
+
+#pass{
+  text-align:center;
+  letter-spacing:6px;
+  margin:10px 0;
+}
+
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  justify-items:center;
+}
+
+.keypad button{
+  width:55px;
+  height:55px;
+  margin:6px;
+  border-radius:50%;
+  border:none;
+  background:#b3d9ff;
+  font-size:18px;
+  justify-content:center;
+  align-items:center;
+}
+
+.bottom-row{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:5px;
+}
+
+.backspace{
+  margin-left:10px;
+  font-size:18px;
+  cursor:pointer;
+  opacity:0.6;
+}
+
+/* HOME */
+.time{
+  text-align:center;
+  font-size:55px;
+  font-weight:700;
+}
+
+.center{text-align:center}
+
+.status{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:12px;
+}
+
+/* MUSIC */
+.music{
+  display:flex;
+  align-items:center;
+  background:white;
+  padding:10px;
+  border-radius:12px;
+  margin:10px 0;
+  transition:0.3s;
+}
+
+.music:hover{transform:scale(1.02);}
+
+.music img{
+  width:45px;
+  height:45px;
+  border-radius:8px;
+  margin-right:10px;
+}
+
+.pp{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* MESSAGE */
+.msg{
+  background:white;
+  padding:10px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  cursor:pointer;
+  transition:0.2s;
+}
+.msg:hover{transform:scale(1.02);}
+
+/* CHAT */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header img{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+}
+
+.chat{
+  height:260px;
+  overflow-y:scroll;
+  background:white;
+  margin-top:5px;
+  padding:8px;
+  border-radius:10px;
+}
+
+.bubble{
+  background:#d6ecff;
+  padding:6px;
+  margin:4px 0;
+  border-radius:10px;
+}
+
+/* SCROLL BAR */
+.scroll-indicator{
+  width:3px;
+  background:#aaa;
+  position:absolute;
+  right:6px;
+  top:180px;
+  border-radius:2px;
+}
+
+/* TEXT BTN */
+.text-btn{
+  text-align:center;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+.sticker{
+  width:90px;
+  height:auto;
+  margin-top:5px;
+}
+
+/* GALLERY */
+.gallery{
+  position:relative;
+}
+
+.gallery img{
+  width:100%;
+  border-radius:10px;
+  transition:0.4s;
+}
+
+/* ARROWS */
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:40px;
+  cursor:pointer;
+  opacity:0.9;
+
+  color:white;
+  padding:5px 12px;
+  border-radius:50%;
+}
+.left{left:10px;}
+.right{right:10px;}
+
+.desc{
+  text-align:center;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.notes-btn{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:8px;
+  padding:10px;
+  background:white;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+<div class="screen">
+<div id="notif" class="notif">yahh password salah :(</div>
+<!-- LOCK -->
+<div id="lock" class="fade">
+  <div class="title">enter the password</div>
+  <div class="hint">hint: tanggal pertama kita masuk kelas 11</div>
+
+  <div id="pass">______</div>
+
+  <div class="keypad">
+    <button onclick="press(1)">1</button>
+    <button onclick="press(2)">2</button>
+    <button onclick="press(3)">3</button>
+    <button onclick="press(4)">4</button>
+    <button onclick="press(5)">5</button>
+    <button onclick="press(6)">6</button>
+    <button onclick="press(7)">7</button>
+    <button onclick="press(8)">8</button>
+    <button onclick="press(9)">9</button>
+    <button onclick="press(#)">#</button>
+    <button onclick="press(0)">0</button>
+   
+   <div class="bottom-row">
+    <div class="backspace" onclick="del()">⌫</div>
+  </div>
+
+</div>
+
+  <div class="text-btn" onclick="check()">enter</div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="hidden fade">
+  <div class="time">07:00</div>
+  <div class="center">Wed, May 2026</div>
+  <div class="status">100%</div>
+
+  <div class="music">
+  <img src="foto7.jpg">
+    <div>
+      <b>Ribuan Memori</b><br>
+      Lomba Sihir
+    </div>
+    <audio id="song" src="ribuanmemori.mp3" loop></audio>
+    <div style="margin-left:auto;cursor:pointer" onclick="play()">▶</div>
+  </div>
+
+  <div class="msg" onclick="openChat()">
+  <div style="display:flex;align-items:center;">
+    
+    <img src="foto6.jpg" class="pp">
+    
+    <div style="margin-left:10px;">
+      <b>Janni</b><br>
+      <small>sent you a message</small>
+    </div>
+
+  </div>
+  <small>3m</small>
+</div>
+</div>
+
+<!-- CHAT -->
+<div id="chatPage" class="hidden fade">
+  <div class="time">07:00</div>
+  <div class="center">Wed, May 2026</div>
+  <div class="status">100%</div>
+
+  <div class="header">
+    <div style="display:flex;align-items:center;">
+      <img src="foto6.jpg">
+      <div>
+        <b>Janni</b><br>
+        <small>online</small>
+      </div>
+    </div>
+    📞
+  </div>
+
+  <div class="chat" id="chatBox">
+    <div class="bubble">hey seiriost... i just wanted to tell you how grateful i am for you. ga kerasa kita udah lulus? gilaaaaa?</div>
+    <div class="bubble">rasanya kaya baru kemaren kita duduk masih canggung karena ga saking kenal. masih bawa temen kelas lama ke kelas. masih ga hafal nama satu sama lain. masih saling takut mau nyapa juga bingung hehehe</div>
+    
+    <div class="bubble">two years isn’t a short time. it wasn’t always perfect, but there were a lot of memories in it. all the effort, the jokes, the times we tried to understand each other and slowly got closer. we didn’t always get along and there were days when everything felt off, but we still stayed and kept going in our own way.</div>
+    
+    <div class="bubble">terimakasih untuk 2 tahunnya ya seiriost, trrimakasih untuk semuanya, aku bener bener ngerasa beruntung bisa kenal kalian</div>
+    <div class="bubble">
+  i'll remember us 💙
+</div>
+  <img src="stiker.png" class="sticker">
+  </div>
+
+  <div class="scroll-indicator" id="scrollBar"></div>
+
+  <div class="text-btn" onclick="openGallery()">go to gallery</div>
+  <div class="text-btn" onclick="backHome()">back</div>
+</div>
+
+<!-- GALLERY -->
+<div id="galleryPage" class="hidden fade">
+  <div class="gallery">
+    <img id="photo" src="https://picsum.photos/300?1">
+
+    <div class="arrow left" onclick="prev()">‹</div>
+    <div class="arrow right" onclick="next()">›</div>
+  </div>
+
+  <div class="desc" id="desc">
+    May 2024 — first day together
+  </div>
+  <div class="notes-btn" onclick="openNotes()">open notes</div>
+  <div class="text-btn" onclick="backChat()">back</div>
+</div>
+
+<!-- NOTES -->
+<div id="notesPage" class="hidden fade">
+  <div class="time">notes</div>
+  <div class="center">a little page for you</div>
+
+  <div style="
+    background:white;
+    margin-top:15px;
+    padding:15px;
+    border-radius:15px;
+    height:300px;
+    overflow-y:auto;
+    font-size:13px;
+    line-height:1.6;
+  ">
+    <img src="foto9.jpg" style="width:100%; border-radius:10px; margin-bottom:10px;">
+    
+    every little moment sama kalian tu bener bener kerasa wowwww. dari yang awal kita ga saling kenal sampe sekarang udah mau pisah <br><br>
+    mulai dari momen vania manggil falsa faisal. terus diesnatalis pertama kita, tiga hari ngapain aja mbak? terus drama p5 kita yang kelas sebelas itu wkwkw ngeclub njir. terus kita bakar bakar dirumah pak fandi. sampe momen dimana kita kejebak hujan dirumah bu arambana wamtu hari raya. rasanya kaya naik roller coaster. <br><br>
+    walau cuma sementara tapi terimakasih atas memorinya ya seiriost. semoga kalian senua bahagia selalu di univ kalian masing-masing. terimakasih atas tiga tahunnya, seiriost 💙
+  </div>
+
+  <div class="text-btn" onclick="backNotes()">back</div>
+</div>
+
+</div>
+</div>
+
+<script>
+let input="";
+let correct="150724";
+
+function press(n){
+  if(input.length<6){
+    input+=n;
+    pass.innerText=input;
+  }
+}
+
+function del(){
+  input=input.slice(0,-1);
+  pass.innerText=input||"______";
+}
+
+function check(){
+  if(input===correct){
+    lock.classList.add("hidden");
+    home.classList.remove("hidden");
+  }else{
+    showNotif(); 
+    input="";
+    pass.innerText="______";
+  }
+}
+
+function play(){ song.play(); }
+
+function openChat(){
+  home.classList.add("hidden");
+  chatPage.classList.remove("hidden");
+}
+
+function backHome(){
+  chatPage.classList.add("hidden");
+  home.classList.remove("hidden");
+}
+
+function openGallery(){
+  chatPage.classList.add("hidden");
+  galleryPage.classList.remove("hidden");
+  show(); 
+}
+
+function backChat(){
+  galleryPage.classList.add("hidden");
+  chatPage.classList.remove("hidden");
+}
+
+/* GALLERY */
+let imgs=[
+ "foto1.jpg",
+ "foto12.jpg",
+ "foto13.jpg",
+ "foto3.jpg",
+ "foto4.jpg"
+];
+
+let descs=[
+ "15 september 2024 kita ngerujak bareng",
+ "18 desember 2025 abis nangis malah fotbar??",
+ "27 februari 2025 kelas terkompetitif p5 loh ya rek wokwowk",
+ "28 februari 2026 seiriost religius check",
+ "24 november 2025 kita bekal mie sekelas"
+];
+
+let i=0;
+function show(){
+  photo.src=imgs[i];
+  desc.innerText=descs[i];
+}
+function next(){ i=(i+1)%imgs.length; show(); }
+function prev(){ i=(i-1+imgs.length)%imgs.length; show(); }
+
+function showNotif(){
+  let n = document.getElementById("notif");
+  n.classList.add("show");
+
+  setTimeout(()=>{
+    n.classList.remove("show");
+  },2000);
+}
+
+function openNotes(){
+  galleryPage.classList.add("hidden");
+  notesPage.classList.remove("hidden");
+}
+
+function backNotes(){
+  notesPage.classList.add("hidden");
+  galleryPage.classList.remove("hidden");
+}
+
+/* SCROLL INDICATOR */
+let chat=document.getElementById("chatBox");
+let bar=document.getElementById("scrollBar");
+
+chat.addEventListener("scroll",()=>{
+  let ratio=chat.scrollTop/(chat.scrollHeight-chat.clientHeight);
+  bar.style.top=180 + ratio*100 + "px";
+});
+</script>
+
+</body>
+</html>
